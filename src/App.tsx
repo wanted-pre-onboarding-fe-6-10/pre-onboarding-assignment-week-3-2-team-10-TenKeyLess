@@ -1,7 +1,8 @@
-import React from "react";
+import React from 'react';
+import Comments from './pages/Comments';
 
 function App() {
-  return <div>App.tsx</div>;
+  return <Comments />;
 }
 
 export default App;
