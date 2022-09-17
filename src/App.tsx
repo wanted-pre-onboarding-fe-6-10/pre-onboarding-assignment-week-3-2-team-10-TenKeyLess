@@ -1,7 +1,7 @@
-import React from "react";
+import Router from "./Router";
 
 function App() {
-  return <div>App.tsx</div>;
+  return <Router />;
 }
 
 export default App;
