@@ -36,11 +36,6 @@ const List = () => {
     getList();
   };
 
-  const movePageNumber = (e: React.MouseEvent<HTMLButtonElement>) => {
-    const { value } = e.target as HTMLButtonElement;
-    dispatch(movePage(value));
-  };
-
   const handleEdit = (input: Comments) => {
     dispatch(postComment(input));
     dispatch(editMode(!mode));
@@ -51,13 +46,16 @@ const List = () => {
   }, []);
 
   return (
-    <Container>
+    <>
       {list.map((comment: Comments) => {
         return (
           <CommentBox key={comment.id}>
             <ProfileWrapper>
-              <Profile src={comment.profile_url} />
-              <Author>{comment.author}</Author>
+              <Profile>
+                <Img src={comment.profile_url} />
+                <Text>작성자: {comment.author}</Text>
+              </Profile>
+              <Text>작성일: {comment.createdAt}</Text>
             </ProfileWrapper>
             <Content>{comment.content}</Content>
             <ButtonWrapper>
@@ -79,23 +77,38 @@ const List = () => {
           </CommentBox>
         );
       })}
-      <Button value="2" onClick={movePageNumber}>
-        다음 페이지
-      </Button>
-    </Container>
+    </>
   );
 };
 
 export default List;
 
-const Container = styled.ul``;
 const CommentBox = styled.li`
   display: flex;
   flex-direction: column;
+  width: 40%;
+  border-bottom: 1px solid #9e9e9e;
+  padding: 1rem;
 `;
-const ProfileWrapper = styled.div``;
-const Profile = styled.img``;
-const Author = styled.span``;
+const ProfileWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+const Profile = styled.div`
+  display: flex;
+  align-items: center;
+`;
+const Img = styled.img`
+  border-radius: 50%;
+  margin-right: 1rem;
+`;
+const Text = styled.span``;
 const Content = styled.p``;
-const ButtonWrapper = styled.div``;
-const Button = styled.button``;
+const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: end;
+`;
+const Button = styled.button`
+  margin-left: 1rem;
+`;

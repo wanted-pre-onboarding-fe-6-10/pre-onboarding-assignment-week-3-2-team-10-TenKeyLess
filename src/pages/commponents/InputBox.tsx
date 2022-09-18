@@ -55,7 +55,7 @@ const InputBox = () => {
   };
 
   return (
-    <Container>
+    <>
       <Input
         type="text"
         placeholder="프로필"
@@ -73,6 +73,7 @@ const InputBox = () => {
       <Input
         type="textarea"
         placeholder="내용"
+        height="100px"
         name="content"
         value={input.content}
         onChange={onChange}
@@ -84,28 +85,23 @@ const InputBox = () => {
         value={input.createdAt}
         onChange={onChange}
       />
-      <Button type="submit" onClick={register}>
-        등록하기
-      </Button>
-    </Container>
+      <Button onClick={register}>등록하기</Button>
+    </>
   );
 };
 
 export default InputBox;
 
-const Container = styled.form`
-  display: flex;
-  flex-direction: column;
-  width: 30%;
-`;
 const Input = styled.input.attrs(props => ({
   type: props.type,
   placeholer: props.placeholder,
 }))`
-  margin: 0 1rem 1rem 1rem;
+  margin: 0 0.5rem 0.5rem 0.5rem;
+  height: ${props => props.height};
+  width: 40%;
 `;
 
 const Button = styled.button`
+  width: 40%;
   height: 30px;
-  margin: 0 1rem 1rem 1rem;
 `;
