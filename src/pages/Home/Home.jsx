@@ -1,50 +1,45 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import commentsSlice, { loadCommentDone } from '@/store/commentsSlice';
+import { loadCommentDone, setCurrentPage } from '@/store/commentsSlice';
 import CommentItem from './CommentItem';
-import axios from 'axios';
+import CommentForm from './CommentForm';
 
 const Home = () => {
   const dispatch = useDispatch();
 
   const commentsData = useSelector(state => state.comments);
-  const { comments, currentList, totalPageNum } = commentsData;
-  // console.log(commentsData);
+  const { comments, currentPage, totalLegnth } = commentsData;
 
-  let CurrnetDataArr = [];
+  let CurrnetDataArr = comments.slice((currentPage - 1) * 4, currentPage * 4);
+  const pagenationArr = Array(Math.ceil(totalLegnth / 4))
+    .fill('_')
+    .map((_, idx) => idx + 1);
 
-  if (currentList.length > 0) {
-    CurrnetDataArr = currentList.map(pageId => comments[pageId]); // 현재 id에 해당되는 값만 전체 comments 데이터에서 빼어 배열로 만든다.
-  }
-
-  const [nowPage, setNowPage] = useState(1);
-
-  // < get요청 >
+  // < get요청 - 초기 한번 렌더함, 페이지버튼 클릭시 get요청x >
   useEffect(() => {
-    dispatch(loadCommentDone(nowPage));
-  }, [nowPage]);
+    dispatch(loadCommentDone());
+  }, []);
 
   const pageChange = e => {
-    setNowPage(e.target.value);
+    const clickedNum = e.target.value;
+    dispatch(setCurrentPage(clickedNum));
   };
-
-  console.log(CurrnetDataArr, totalPageNum);
 
   return (
     <ListWrapper>
-      {/* 댓글 */}
+      {/* 댓글  */}
       {CurrnetDataArr.length > 0 && (
         <div>
           {CurrnetDataArr.map(comment => (
-            <CommentItem key={comment.id} comment={comment} setNowPage={setNowPage} />
+            <CommentItem key={comment.id} comment={comment} />
           ))}
         </div>
       )}
       {/* 페이지네이션 */}
-      {totalPageNum.length > 0 && (
+      {pagenationArr.length > 0 && (
         <PageBox>
-          {totalPageNum.map(num => (
+          {pagenationArr.map(num => (
             <PageButton key={num} value={num} onClick={pageChange}>
               {num}
             </PageButton>
@@ -53,6 +48,7 @@ const Home = () => {
       )}
 
       {/* 작성폼 */}
+      <CommentForm />
     </ListWrapper>
   );
 };

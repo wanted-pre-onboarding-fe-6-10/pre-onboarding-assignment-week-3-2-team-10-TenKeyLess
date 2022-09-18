@@ -8,10 +8,3 @@ export const store = configureStore({
   },
   middleware: getDefaultMiddleware => getDefaultMiddleware().concat(logger),
 });
-
-/*
-{
-  comments : { 1:{} , 2:{}, 3: {}, 4: {} ... },
-  currentList: [5, 6, 7, 8]
-}
-*/

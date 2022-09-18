@@ -1,36 +1,59 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-// <페이지네이션 - 전체길이 요청, 별도 함수로 분리>
-const getPagenationArr = async () => {
-  const response = await axios.get(`http://localhost:4000/comments`);
-  const totalPageNum = Math.ceil(response.data.length / 4);
-  let pagenationArr = Array(totalPageNum).fill('_');
-  pagenationArr = pagenationArr.map((_, idx) => idx + 1);
-  return pagenationArr;
+const BASE_URL = process.env.REACT_APP_BASE_URL;
+
+const getCommentsRequest = async () => {
+  const { data } = await axios.get(BASE_URL);
+  return data;
 };
 
-export const loadCommentDone = createAsyncThunk('GET_TODO', async (nowPage, thunkApi) => {
+export const loadCommentDone = createAsyncThunk('GET_COMMENT', async (_, thunkApi) => {
   try {
-    // <data get요청>
-    const getNowData = await axios.get(
-      `http://localhost:4000/comments?_page=${nowPage}&_limit=4&_order=desc&_sort=id`
-    );
-
-    return Promise.all([getNowData, getPagenationArr()]).then(response => {
-      // console.log(response); // [ {data: Array(4), status: 200,..} , Array(4)]
-      return { nowData: response[0].data, pageLength: response[1] };
-    });
+    return getCommentsRequest();
   } catch {
-    return thunkApi.rejectWithValue('err'); // [질문] rejected가 안된다.
+    return thunkApi.rejectWithValue('err');
   }
 });
 
-export const deleteComment = createAsyncThunk('DELETE_TODO', async (id, thunkApi) => {
+export const deleteComment = createAsyncThunk('DELETE_COMMENT', async (id, thunkApi) => {
   try {
-    await axios.delete(`http://localhost:4000/comments/${id}`);
-    const pagenationArr = await getPagenationArr(); // 삭제 후 페이지 길이 다시 계산 // [질문] - 그냥 변수로 받아도 되는지?
-    return { id: id, pagenationArr: pagenationArr };
+    await axios.delete(`${BASE_URL}/${id}`);
+    return getCommentsRequest();
+  } catch {
+    return thunkApi.rejectWithValue('err');
+  }
+});
+
+export const postComment = createAsyncThunk('POST_COMMENT', async (commentValue, thunkApi) => {
+  try {
+    axios({
+      method: 'post',
+      url: BASE_URL,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: commentValue,
+    });
+
+    return getCommentsRequest();
+  } catch {
+    return thunkApi.rejectWithValue('err');
+  }
+});
+
+export const putComment = createAsyncThunk('PUT_COMMENT', async (commentValue, thunkApi) => {
+  try {
+    await axios({
+      method: 'put',
+      url: `${BASE_URL}/${commentValue.id}`,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: commentValue.commentValue,
+    });
+
+    return getCommentsRequest();
   } catch {
     return thunkApi.rejectWithValue('err');
   }
@@ -39,50 +62,76 @@ export const deleteComment = createAsyncThunk('DELETE_TODO', async (id, thunkApi
 export const commentsSlice = createSlice({
   name: 'comments',
   initialState: {
-    comments: {}, // {1:{} , 2: {}, 3:{} ...}
-    currentList: [], // [19,20,21,22] - 4개씩만 나옴
-    totalPageNum: [],
+    comments: [], // 총 데이터
+    currentPage: 1, // 현재 페이지
+    totalLegnth: 0, // 총 페이지 수
+    commentItem: {}, // 수정할 댓글 data
   },
-  reducers: {},
+  reducers: {
+    setCurrentPage: (state, action) => {
+      return { ...state, currentPage: action.payload };
+    },
+
+    setCommentItem: (state, action) => {
+      const commentItem = [...state.comments].find(data => data.id === action.payload) ?? {};
+      return { ...state, commentItem: commentItem };
+    },
+  },
   extraReducers: builder => {
     // < get요청 성공시 >
     builder.addCase(loadCommentDone.fulfilled, (state, action) => {
-      // comments
-      const newCommentState = {};
-      action.payload.nowData.forEach(data => {
-        newCommentState[data.id] = data;
-      });
+      return {
+        ...state,
+        comments: action.payload,
+        totalLegnth: action.payload.length,
+      };
+    });
 
-      const updatedState = { ...state.comments, ...newCommentState };
+    // < POST 성공시 >
+    builder.addCase(postComment.fulfilled, (state, action) => {
+      return {
+        ...state,
+        comments: action.payload,
+        currentPage: 1,
+        totalLegnth: action.payload.length,
+      };
+    });
 
-      // currentList
-      const idArr = [];
-      action.payload.nowData.forEach(data => idArr.push(data.id));
-
-      // totalPageNum
-      const totalPageNum = action.payload.pageLength;
-
-      return { comments: updatedState, currentList: idArr, totalPageNum: totalPageNum };
+    // < PUT 성공시 >
+    builder.addCase(putComment.fulfilled, (state, action) => {
+      return {
+        ...state,
+        comments: action.payload,
+      };
     });
 
     // < 삭제 성공시 >
     builder.addCase(deleteComment.fulfilled, (state, action) => {
-      const clonedComments = { ...state.comments };
-      delete clonedComments[action.payload.id];
-      const clonedCurrentList = state.currentList.filter(num => num !== action.payload.id);
       return {
-        comments: clonedComments,
-        currentList: clonedCurrentList,
-        totalPageNum: action.payload.pagenationArr,
+        ...state,
+        comments: action.payload,
+        currentPage: 1,
+        totalLegnth: action.payload.length,
       };
     });
 
-    // < 삭제 실패시 >
-    builder.addCase(deleteComment.rejected, (state, action) => {
-      alert('삭제 실패하였습니다');
-      return state; // 항상 state값을 반환해야함.
+    // < 실패시 >
+    builder.addCase(postComment.rejected, state => {
+      alert('등록 실패!');
+      return state;
+    });
+
+    builder.addCase(putComment.rejected, state => {
+      alert('수정 실패!');
+      return state;
+    });
+
+    builder.addCase(deleteComment.rejected, state => {
+      alert('삭제 실패!');
+      return state;
     });
   },
 });
 
 export default commentsSlice.reducer;
+export const { setCurrentPage, setCommentItem } = commentsSlice.actions;

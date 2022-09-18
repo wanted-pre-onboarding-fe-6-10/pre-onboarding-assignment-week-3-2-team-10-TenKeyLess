@@ -1,14 +1,17 @@
 import styled from 'styled-components';
-import { useDispatch, useSelector } from 'react-redux';
-import { deleteComment } from '@/store/commentsSlice';
+import { useDispatch } from 'react-redux';
+import { deleteComment, setCommentItem } from '@/store/commentsSlice';
 
-const CommentItem = ({ comment, setNowPage }) => {
+const CommentItem = ({ comment }) => {
   const { id, author, content, createdAt, profile_url } = comment;
   const dispatch = useDispatch();
 
   const deleteRequest = () => {
     dispatch(deleteComment(id));
-    setNowPage(1);
+  };
+
+  const putRequest = () => {
+    dispatch(setCommentItem(id));
   };
 
   return (
@@ -23,7 +26,9 @@ const CommentItem = ({ comment, setNowPage }) => {
       </CommentHeader>
       <Content>{content}</Content>
       <Buttons>
-        <button type="button">수정</button>
+        <button type="button" onClick={putRequest}>
+          수정
+        </button>
         <button type="button" onClick={deleteRequest}>
           삭제
         </button>
