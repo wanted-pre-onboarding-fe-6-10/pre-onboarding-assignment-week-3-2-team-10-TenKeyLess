@@ -1,14 +1,26 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { postCommentApi } from '../../api/api';
-import { INITIAL_STATE, postComment } from '../../redux/modules/comment';
+import { getCommentApi, postCommentApi, putCommentApi } from '../../api/api';
+import {
+  addNewComment,
+  editMode,
+  getComment,
+  INITIAL_STATE,
+  movePage,
+  postComment,
+  updateComment,
+} from '../../redux/modules/comment';
 import { rootReducer } from '../../redux/store';
 
 const InputBox = () => {
-  const input = useSelector((store: ReturnType<typeof rootReducer>) => {
-    return store.comment.comment;
+  const comment = useSelector((store: ReturnType<typeof rootReducer>) => {
+    return store.comment;
   });
+
+  const input = comment.comment;
+  const mode = comment.editMode;
+  const page = comment.page;
 
   const dispatch = useDispatch();
 
@@ -21,8 +33,25 @@ const InputBox = () => {
     );
   };
 
-  const addComment: React.MouseEventHandler<HTMLButtonElement> = async (input: any) => {
+  const addComment = async () => {
     await postCommentApi(input);
+    dispatch(addNewComment(input));
+    dispatch(postComment(INITIAL_STATE.comment));
+    dispatch(movePage('1'));
+    const response = await getCommentApi(page);
+    dispatch(getComment(response));
+  };
+
+  const putComment = async () => {
+    await putCommentApi(input.id, input);
+    dispatch(updateComment(input.id, input));
+    dispatch(postComment(INITIAL_STATE.comment));
+    dispatch(editMode(false));
+  };
+
+  const register: React.MouseEventHandler<HTMLButtonElement> = async e => {
+    e.preventDefault();
+    mode ? putComment() : addComment();
   };
 
   return (
@@ -55,14 +84,7 @@ const InputBox = () => {
         value={input.createdAt}
         onChange={onChange}
       />
-      <Button
-        type="submit"
-        onClick={e => {
-          e.preventDefault();
-          addComment(input);
-          dispatch(postComment(INITIAL_STATE.comment));
-        }}
-      >
+      <Button type="submit" onClick={register}>
         등록하기
       </Button>
     </Container>
@@ -79,8 +101,11 @@ const Container = styled.form`
 const Input = styled.input.attrs(props => ({
   type: props.type,
   placeholer: props.placeholder,
-}))``;
+}))`
+  margin: 0 1rem 1rem 1rem;
+`;
 
 const Button = styled.button`
   height: 30px;
+  margin: 0 1rem 1rem 1rem;
 `;

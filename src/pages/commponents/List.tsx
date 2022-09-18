@@ -1,32 +1,54 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteCommentApi, getCommentApi } from '../../api/api';
-import { deleteComment, getComment } from '../../redux/modules/comment';
+import {
+  deleteComment,
+  editMode,
+  getComment,
+  movePage,
+  postComment,
+} from '../../redux/modules/comment';
 import { rootReducer } from '../../redux/store';
 import { Comments } from '../../types/types';
 import styled from 'styled-components';
 
 const List = () => {
   // get List
-  const list = useSelector((store: ReturnType<typeof rootReducer>) => {
-    return store.comment.commentList;
+  const comment = useSelector((store: ReturnType<typeof rootReducer>) => {
+    return store.comment;
   });
+
+  const list = comment.commentList;
+  const page = comment.page;
+  const mode = comment.editMode;
 
   const dispatch = useDispatch();
 
   const getList = async () => {
-    const response = await getCommentApi();
+    const response = await getCommentApi(page);
     dispatch(getComment(response));
   };
 
   const removeComment = async (id: number) => {
-    const response = await deleteCommentApi(id);
+    await deleteCommentApi(id);
     dispatch(deleteComment(id));
+    dispatch(movePage('1'));
+    getList();
+  };
+
+  const movePageNumber = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const { value } = e.target as HTMLButtonElement;
+    dispatch(movePage(value));
+  };
+
+  const handleEdit = (input: Comments) => {
+    dispatch(postComment(input));
+    dispatch(editMode(!mode));
   };
 
   useEffect(() => {
     getList();
-  }, [list]);
+  }, []);
 
   return (
     <Container>
@@ -39,7 +61,13 @@ const List = () => {
             </ProfileWrapper>
             <Content>{comment.content}</Content>
             <ButtonWrapper>
-              <Button>수정</Button>
+              <Button
+                onClick={() => {
+                  handleEdit({ ...comment });
+                }}
+              >
+                수정
+              </Button>
               <Button
                 onClick={() => {
                   removeComment(comment.id);
@@ -51,6 +79,9 @@ const List = () => {
           </CommentBox>
         );
       })}
+      <Button value="2" onClick={movePageNumber}>
+        다음 페이지
+      </Button>
     </Container>
   );
 };
