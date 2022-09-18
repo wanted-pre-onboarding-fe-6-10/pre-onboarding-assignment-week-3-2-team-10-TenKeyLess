@@ -17,5 +17,5 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "include": ["src", "tsconfig.paths.json"]
+  "include": ["src", "tsconfig.paths.json", "./types", "../../4/thingsflow/src/api"]
 }

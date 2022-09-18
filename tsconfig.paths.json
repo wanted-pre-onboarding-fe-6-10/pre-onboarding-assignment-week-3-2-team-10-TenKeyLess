@@ -4,6 +4,7 @@
     "paths": {
       "api/*": ["src/api/*"],
       "components/*": ["src/components/*"],
+      "reducers/*": ["src/reducers/*"],
       "styles/*": ["src/styles/*"],
       "utils/*": ["src/utils/*"]
     }
