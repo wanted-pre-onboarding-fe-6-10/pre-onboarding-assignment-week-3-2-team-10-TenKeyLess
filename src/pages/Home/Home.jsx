@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { loadCommentDone } from '@/store/commentsSlice';
+import commentsSlice, { loadCommentDone } from '@/store/commentsSlice';
 import CommentItem from './CommentItem';
 import axios from 'axios';
 
@@ -9,33 +9,27 @@ const Home = () => {
   const dispatch = useDispatch();
 
   const commentsData = useSelector(state => state.comments);
-  const { comments, currentList } = commentsData;
+  const { comments, currentList, totalPageNum } = commentsData;
+  // console.log(commentsData);
 
-  const CurrnetDataArr = currentList.map(pageId => comments[pageId]); // 현재 id에 해당되는 값만 전체 comments 데이터에서 빼어 배열로 만든다.
+  let CurrnetDataArr = [];
+
+  if (currentList.length > 0) {
+    CurrnetDataArr = currentList.map(pageId => comments[pageId]); // 현재 id에 해당되는 값만 전체 comments 데이터에서 빼어 배열로 만든다.
+  }
 
   const [nowPage, setNowPage] = useState(1);
-  const [totalPageNum, settotalPageNum] = useState([]);
 
   // < get요청 >
   useEffect(() => {
-    axios
-      .get(`http://localhost:4000/comments?_page=${nowPage}&_limit=4&_order=desc&_sort=id`)
-      .then(result => {
-        dispatch(loadCommentDone(result.data));
-      });
-
-    // <페이지네이션 - 전체길이 요청>
-    axios('http://localhost:4000/comments').then(result => {
-      const totalPageNum = Math.ceil(result.data.length / 4);
-      let newPageArr = Array(totalPageNum).fill('_');
-      newPageArr = newPageArr.map((_, idx) => idx + 1);
-      settotalPageNum(newPageArr);
-    });
+    dispatch(loadCommentDone(nowPage));
   }, [nowPage]);
 
   const pageChange = e => {
     setNowPage(e.target.value);
   };
+
+  console.log(CurrnetDataArr, totalPageNum);
 
   return (
     <ListWrapper>

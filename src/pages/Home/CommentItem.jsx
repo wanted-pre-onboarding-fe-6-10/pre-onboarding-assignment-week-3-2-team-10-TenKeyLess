@@ -1,4 +1,3 @@
-import axios from 'axios';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteComment } from '@/store/commentsSlice';
@@ -8,7 +7,6 @@ const CommentItem = ({ comment, setNowPage }) => {
   const dispatch = useDispatch();
 
   const deleteRequest = () => {
-    axios.delete(`http://localhost:4000/comments/${id}`);
     dispatch(deleteComment(id));
     setNowPage(1);
   };
