@@ -1,5 +1,4 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
-import { idText } from 'typescript';
 import { Comments } from '../types/types';
 
 const COMMON = 'http://localhost:4000/comments';
