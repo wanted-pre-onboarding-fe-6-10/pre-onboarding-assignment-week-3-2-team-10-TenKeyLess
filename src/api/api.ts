@@ -1,28 +1,44 @@
-import axios, { AxiosInstance } from 'axios';
+import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 import { Comments } from '../types/types';
 
 const COMMON = 'http://localhost:4000/comments';
 
-export default class JasonServerApi {
-  baseURL: string;
-  instance: AxiosInstance;
+const axiosConfig: AxiosRequestConfig = { baseURL: COMMON };
 
-  constructor(baseURL: string = COMMON) {
-    this.baseURL = baseURL;
-    this.instance = axios.create({
-      baseURL: this.baseURL,
-    });
+export const instance: AxiosInstance = axios.create(axiosConfig);
+
+export const getCommentApi = async () => {
+  try {
+    const { data } = await instance.get('/');
+    return data;
+  } catch {
+    console.error('err');
   }
+};
 
-  getComments = async () => {
-    return await this.instance.get(this.baseURL);
-  };
+export const postCommentApi = async (comment: Comments) => {
+  try {
+    const { data } = await instance.post('/', comment);
+    return data;
+  } catch {
+    console.error('err');
+  }
+};
 
-  postComments = async (data: Comments) => {
-    return await this.instance.post(this.baseURL, [data]);
-  };
+export const putCommentApi = async (id: number, comment: Comments) => {
+  try {
+    const { data } = await instance.put(`/${id}`, comment);
+    return data;
+  } catch {
+    console.error('err');
+  }
+};
 
-  updateComment = async (id: number, data: Comments) => {
-    return await this.instance.put(`${this.baseURL}/${id}`, [data]);
-  };
-}
+export const deleteCommentApi = async (id: number) => {
+  try {
+    const { data } = await instance.delete(`/${id}`);
+    return data;
+  } catch {
+    console.error('err');
+  }
+};
