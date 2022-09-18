@@ -1,4 +1,5 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
+import { idText } from 'typescript';
 import { Comments } from '../types/types';
 
 const COMMON = 'http://localhost:4000/comments';
@@ -7,9 +8,11 @@ const axiosConfig: AxiosRequestConfig = { baseURL: COMMON };
 
 export const instance: AxiosInstance = axios.create(axiosConfig);
 
-export const getCommentApi = async () => {
+export const getCommentApi = async (page: number) => {
   try {
-    const { data } = await instance.get('/');
+    const { data } = await instance.get('/', {
+      params: { _page: page, _limit: 5, _sort: 'id', _order: 'desc' },
+    });
     return data;
   } catch {
     console.error('err');
