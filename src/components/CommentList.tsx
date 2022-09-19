@@ -1,11 +1,11 @@
-import styled from 'styled-components';
-import { useAppSelector } from '../redux';
-import { Comments } from '../redux/Reducer/CommentsReducer';
-import { Pages } from '../redux/Reducer/PageReducer';
-import { perPage } from '../utils/page.utill';
-import { fetchCommentById } from '../redux/Reducer/CommentByIdReducer';
-import { useAppDispatch } from '../redux';
-import Api from '../api';
+import styled from "styled-components";
+import { useAppSelector } from "../redux";
+import { Comments } from "../redux/Reducer/CommentsReducer";
+import { Pages } from "../redux/Reducer/PageReducer";
+import { perPage } from "../utils/page.utill";
+import { fetchCommentById } from "../redux/Reducer/CommentByIdReducer";
+import { useAppDispatch } from "../redux";
+import Api from "../api";
 
 const CommentList = () => {
   const commentList = useAppSelector(Comments);
@@ -27,7 +27,7 @@ const CommentList = () => {
     <>
       {commentsPerpage.map((comment, key) => (
         <Comment key={key}>
-          <img src={comment.profile_url} alt='' />
+          <img src={comment.profile_url} alt="" />
 
           {comment.author}
 

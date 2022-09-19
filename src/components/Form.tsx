@@ -1,9 +1,9 @@
-import { useRef } from 'react';
-import styled from 'styled-components';
-import Api from '../api';
-import { useAppSelector, useAppDispatch } from '../redux';
-import { CommentById } from '../redux/Reducer/CommentByIdReducer';
-import { commentReset } from '../redux/Reducer/CommentByIdReducer';
+import { useRef } from "react";
+import styled from "styled-components";
+import Api from "../api";
+import { useAppSelector, useAppDispatch } from "../redux";
+import { CommentById } from "../redux/Reducer/CommentByIdReducer";
+import { commentReset } from "../redux/Reducer/CommentByIdReducer";
 
 const Form = () => {
   const CommentState = useAppSelector(CommentById);
@@ -13,7 +13,7 @@ const Form = () => {
   const contentRef = useRef<HTMLTextAreaElement>(null);
   const createdAtRef = useRef<HTMLInputElement>(null);
 
-  if (CommentState.loading === 'succeeded') {
+  if (CommentState.loading === "succeeded") {
     profileUrlRef.current!.value = CommentState.data.profile_url;
     authorRef.current!.value = CommentState.data.author;
     contentRef.current!.value = CommentState.data.content;
@@ -28,46 +28,46 @@ const Form = () => {
       content: contentRef.current!.value,
       createdAt: createdAtRef.current!.value,
     };
-    if (CommentState.loading === 'succeeded') {
+    if (CommentState.loading === "succeeded") {
       Api.PutComment(CommentState.data.id, data);
       dispatch(commentReset());
     } else {
       Api.PostComment(data);
     }
-    profileUrlRef.current!.value = '';
-    authorRef.current!.value = '';
-    contentRef.current!.value = '';
-    createdAtRef.current!.value = '';
+    profileUrlRef.current!.value = "";
+    authorRef.current!.value = "";
+    contentRef.current!.value = "";
+    createdAtRef.current!.value = "";
   };
   return (
     <FormStyle>
       <form>
         <input
-          type='text'
-          name='profile_url'
-          placeholder='https://picsum.photos/id/1/50/50'
+          type="text"
+          name="profile_url"
+          placeholder="https://picsum.photos/id/1/50/50"
           required
           ref={profileUrlRef}
         />
         <br />
-        <input type='text' name='author' placeholder='작성자' ref={authorRef} />
+        <input type="text" name="author" placeholder="작성자" ref={authorRef} />
         <br />
         <textarea
-          name='content'
-          placeholder='내용'
+          name="content"
+          placeholder="내용"
           required
           ref={contentRef}
         ></textarea>
         <br />
         <input
-          type='text'
-          name='createdAt'
-          placeholder='2020-05-30'
+          type="text"
+          name="createdAt"
+          placeholder="2020-05-30"
           required
           ref={createdAtRef}
         />
         <br />
-        <button type='submit' onClick={(e: any) => submitHandler(e)}>
+        <button type="submit" onClick={(e: any) => submitHandler(e)}>
           등록
         </button>
       </form>
@@ -87,7 +87,7 @@ const FormStyle = styled.div`
     width: 98%;
     height: 50px;
   }
-  & > form > input[type='text'] {
+  & > form > input[type="text"] {
     padding: 5px 1%;
     width: 98%;
     margin-bottom: 10px;

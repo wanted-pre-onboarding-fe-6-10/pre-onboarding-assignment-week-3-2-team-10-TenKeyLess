@@ -1,6 +1,6 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { RootState } from '../store';
-import Api from '../../api';
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { RootState } from "../store";
+import Api from "../../api";
 
 interface CommentState {
   id: number;
@@ -12,29 +12,29 @@ interface CommentState {
 
 interface Comment {
   data: CommentState;
-  loading: 'idle' | 'pending' | 'succeeded' | 'failed';
+  loading: "idle" | "pending" | "succeeded" | "failed";
 }
 
 const initialState: Comment = {
   data: {
     id: 0,
-    profile_url: '',
-    author: '',
-    content: '',
-    createdAt: '',
+    profile_url: "",
+    author: "",
+    content: "",
+    createdAt: "",
   },
-  loading: 'idle',
+  loading: "idle",
 };
 
 export const fetchCommentById = createAsyncThunk(
-  'comment/fetchCommentStatus',
+  "comment/fetchCommentStatus",
   async (CommentId: number) => {
     const response = await Api.GetCommentById(CommentId);
     return response.data;
   }
 );
 export const deleteCommentById = createAsyncThunk(
-  'comment/fetchCommentStatus',
+  "comment/fetchCommentStatus",
   async (CommentId: number) => {
     const response = await Api.DeleteComment(CommentId);
     return response.data;
@@ -42,7 +42,7 @@ export const deleteCommentById = createAsyncThunk(
 );
 
 export const CommentSlice = createSlice({
-  name: 'comment',
+  name: "comment",
   initialState: initialState,
   reducers: {
     commentReset(state) {
@@ -51,7 +51,7 @@ export const CommentSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(fetchCommentById.fulfilled, (state, action) => {
-      state.loading = 'succeeded';
+      state.loading = "succeeded";
       const Comment = action.payload;
       state.data = Comment;
     });
