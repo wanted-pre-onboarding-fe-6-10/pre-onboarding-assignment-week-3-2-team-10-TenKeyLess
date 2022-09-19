@@ -34,7 +34,8 @@
     "eject": "react-scripts eject",
     "postinstall": "husky install && chmod ug+x .husky/*",
     "format": "prettier --cache --write .",
-    "lint": "eslint --cache ."
+    "lint": "eslint --cache .",
+    "api": "npx json-server ./data.json --port 4000"
   },
   "eslintConfig": {
     "extends": [
