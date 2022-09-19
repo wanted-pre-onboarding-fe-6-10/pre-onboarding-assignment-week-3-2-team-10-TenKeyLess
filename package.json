@@ -3,29 +3,34 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@craco/craco": "^6.4.5",
+    "@reduxjs/toolkit": "^1.8.5",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "@types/axios": "^0.14.0",
     "@types/jest": "^27.5.2",
     "@types/node": "^16.11.59",
     "@types/react": "^18.0.20",
     "@types/react-dom": "^18.0.6",
     "@types/react-router-dom": "^5.3.3",
+    "@types/styled-components": "^5.1.26",
+    "axios": "^0.27.2",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-redux": "^7.2.8",
     "react-router-dom": "^6.3.0",
-    "react-scripts": "5.0.1",
-    "redux-logger": "^3.0.6",
+    "react-scripts": "^5.0.1",
+    "redux": "^4.2.0",
     "styled-components": "^5.3.5",
     "styled-reset": "^4.4.2",
     "typescript": "^4.8.3",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test",
     "eject": "react-scripts eject",
     "postinstall": "husky install && chmod ug+x .husky/*",
     "format": "prettier --cache --write .",
@@ -50,8 +55,16 @@
     ]
   },
   "devDependencies": {
+    "@types/redux-logger": "^3.0.9",
+    "@typescript-eslint/eslint-plugin": "^5.37.0",
+    "@typescript-eslint/parser": "^5.37.0",
+    "craco-alias": "^3.0.1",
     "eslint": "^8.23.1",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
     "husky": "^8.0.1",
-    "prettier": "^2.7.1"
+    "prettier": "^2.7.1",
+    "redux-devtools-extension": "^2.13.9",
+    "redux-logger": "^3.0.6"
   }
 }
