@@ -1,5 +1,5 @@
-import React from "react";
-import styled from "styled-components";
+import { useDispatch } from 'react-redux';
+import styled from 'styled-components';
 
 const FormStyle = styled.div`
   & > form {
@@ -11,7 +11,7 @@ const FormStyle = styled.div`
     width: 98%;
     height: 50px;
   }
-  & > form > input[type="text"] {
+  & > form > input[type='text'] {
     padding: 5px 1%;
     width: 98%;
     margin-bottom: 10px;
@@ -25,6 +25,14 @@ const FormStyle = styled.div`
 `;
 
 function Form() {
+  const dispatch = useDispatch();
+
+  // useEffect(() => {
+  //   if (commentStatus === 'initial') {
+  //     dispatch(fetchComments());
+  //   }
+  // }, [commentStatus, dispatch]);
+
   return (
     <FormStyle>
       <form>
