@@ -85,13 +85,6 @@
       "createdAt": "2022-03-12"
     },
     {
-      "id": 13,
-      "profile_url": "https://picsum.photos/id/13/50/50",
-      "author": "abc_13",
-      "content": "주변에 React 개발자 있나요",
-      "createdAt": "2022-03-13"
-    },
-    {
       "id": 14,
       "profile_url": "https://picsum.photos/id/14/50/50",
       "author": "abc_14",
@@ -141,18 +134,18 @@
       "createdAt": "2022-03-20"
     },
     {
-      "id": 21,
-      "profile_url": "https://picsum.photos/id/21/50/50",
-      "author": "abc_21",
-      "content": "typescript도 배워 보려고 합니다. 어떻게 배우는게 빠를까요",
-      "createdAt": "2022-03-21"
-    },
-    {
       "id": 22,
       "profile_url": "https://picsum.photos/id/22/50/50",
       "author": "abc_22",
       "content": "주변에 React 개발자 있나요",
       "createdAt": "2022-03-22"
+    },
+    {
+      "profile_url": "https://picsum.photos/id/1/50/50",
+      "author": "한얼",
+      "content": "룰루랄라",
+      "createdAt": "2022-09-18",
+      "id": 39
     }
   ]
 }
