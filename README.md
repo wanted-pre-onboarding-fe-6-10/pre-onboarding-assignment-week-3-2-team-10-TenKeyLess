@@ -146,6 +146,19 @@ src
   </details>
 <br>
 
+> ## 구현 영상
+
+- 댓글 수정
+  <img width="1000" alt="demoImg" src="https://velog.velcdn.com/images/jhplus13/post/b0d184ab-9d82-43e4-92f4-2f059b420b22/image.gif">
+
+- 댓글 추가
+  <img width="1357" alt="demoImg" src="https://velog.velcdn.com/images/jhplus13/post/08c2b978-ee1c-45c1-9988-dfeff3274f1a/image.gif">
+
+- 댓글 삭제
+  <img width="1357" alt="demoImg" src="https://velog.velcdn.com/images/jhplus13/post/eb4c5e03-ad10-45d1-a9e1-155d54ad43fd/image.gif">
+
+<br/>
+
 > ## 미구현 내용
 
 - 디테일한 UI 작업
