@@ -26,13 +26,13 @@ jobs:
           REACT_APP_BASE_URL: ${{ secrets.REACT_APP_BASE_URL }}
 
       - name: Install Dependencies
-        run: npm install
+        run: yarn install
         
       - name: Run JSON Server
-        run: npm run api
+        run: yarn run api
 
       - name: Build
-        run: npm run build
+        run: yarn run build
         env:
           CI: ''
 
