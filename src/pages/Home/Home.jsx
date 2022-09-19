@@ -11,8 +11,15 @@ const Home = () => {
   const commentsData = useSelector(state => state.comments);
   const { comments, currentPage, totalLegnth } = commentsData;
 
-  let CurrnetDataArr = comments.slice((currentPage - 1) * 4, currentPage * 4);
-  const pagenationArr = Array(Math.ceil(totalLegnth / 4))
+  // [리팩토링] 4는 상수활용
+  const COUNT_PER_PAGE = 4;
+
+  let CurrnetDataArr = comments.slice(
+    (currentPage - 1) * COUNT_PER_PAGE,
+    currentPage * COUNT_PER_PAGE
+  );
+
+  const pagenationArr = Array(Math.ceil(totalLegnth / COUNT_PER_PAGE))
     .fill('_')
     .map((_, idx) => idx + 1);
 
