@@ -24,13 +24,10 @@ const PageButton = () => {
     getPages();
   }, []);
 
-  console.log(pages);
-
   const movePageNumber = async (e: React.MouseEvent<HTMLButtonElement>) => {
     const { value } = e.target as HTMLButtonElement;
     dispatch(movePage(value));
-    const response = await getCommentApi(page, '5');
-    dispatch(getComment(response));
+    dispatch(getComment(await getCommentApi(page, '5')));
   };
 
   return (
@@ -51,5 +48,5 @@ export default PageButton;
 const Container = styled.div``;
 const Button = styled.button`
   height: 30px;
-  margin: 2rem;
+  margin: 0.5rem;
 `;

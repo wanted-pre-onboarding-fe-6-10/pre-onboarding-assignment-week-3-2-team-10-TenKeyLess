@@ -37,9 +37,9 @@ const InputBox = () => {
     await postCommentApi(input);
     dispatch(addNewComment(input));
     dispatch(postComment(INITIAL_STATE.comment));
-    dispatch(movePage('1'));
     const response = await getCommentApi(page, '5');
     dispatch(getComment(response));
+    dispatch(movePage('1'));
   };
 
   const putComment = async () => {
@@ -95,6 +95,7 @@ export default InputBox;
 const Input = styled.input.attrs(props => ({
   type: props.type,
   placeholer: props.placeholder,
+  autoComplete: 'off',
 }))`
   margin: 0 0.5rem 0.5rem 0.5rem;
   height: ${props => props.height};
