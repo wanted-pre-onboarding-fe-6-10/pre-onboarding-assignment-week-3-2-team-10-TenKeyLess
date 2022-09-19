@@ -11,7 +11,6 @@ const Home = () => {
   const commentsData = useSelector(state => state.comments);
   const { comments, currentPage, totalLegnth } = commentsData;
 
-  // [리팩토링] 4는 상수활용
   const COUNT_PER_PAGE = 4;
 
   let CurrnetDataArr = comments.slice(
