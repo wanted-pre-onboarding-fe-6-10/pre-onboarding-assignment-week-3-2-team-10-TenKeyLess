@@ -1,3 +1,4 @@
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
 const FormStyle = styled.div`
@@ -24,6 +25,14 @@ const FormStyle = styled.div`
 `;
 
 function Form() {
+  const dispatch = useDispatch();
+
+  // useEffect(() => {
+  //   if (commentStatus === 'initial') {
+  //     dispatch(fetchComments());
+  //   }
+  // }, [commentStatus, dispatch]);
+
   return (
     <FormStyle>
       <form>

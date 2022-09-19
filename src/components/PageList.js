@@ -1,4 +1,7 @@
+import { useDispatch, useSelector } from 'react-redux';
+import { changePage } from 'reducers/comment.reducer';
 import styled from 'styled-components';
+import { PER_PAGE } from 'utils/constants';
 
 const PageListStyle = styled.div`
   margin-bottom: 20px;
@@ -21,12 +24,22 @@ const Page = styled.button`
 `;
 
 function PageList() {
+  const dispatch = useDispatch();
+  const data = useSelector(state => state.commentReducer.comments);
+  const focus = useSelector(state => state.commentReducer.focusPage);
+
   const pageArray = [];
 
-  pageArray.push(
-    // 임시로 페이지 하나만 설정했습니다.
-    <Page key="1">1</Page>
-  );
+  const handlePageClick = i => {
+    dispatch(changePage(i));
+  };
+
+  for (let i = 1; i <= Math.ceil(data.length / PER_PAGE); i++)
+    pageArray.push(
+      <Page key={i} active={i === focus} onClick={() => handlePageClick(i)}>
+        {i}
+      </Page>
+    );
 
   return <PageListStyle>{pageArray}</PageListStyle>;
 }

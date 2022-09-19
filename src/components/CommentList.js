@@ -52,13 +52,19 @@ function CommentList() {
   const dispatch = useDispatch();
   const data = useSelector(state => state.commentReducer.comments);
 
-  const commentStatus = useSelector(state => state.commentReducer.status);
+  const commentStatus = useSelector(state => state.commentReducer);
+
+  // useEffect(() => {
+  //   if (commentStatus === 'initial') {
+  //     dispatch(fetchComments());
+  //   }
+  // }, [commentStatus, dispatch]);
 
   useEffect(() => {
-    if (commentStatus === 'initial') {
-      dispatch(fetchComments());
+    if (!commentStatus.loading && data.length === 0) {
+      dispatch(fetchComments(1));
     }
-  }, [commentStatus, dispatch]);
+  }, []);
 
   return data.map((comment, key) => (
     <Comment key={key}>
