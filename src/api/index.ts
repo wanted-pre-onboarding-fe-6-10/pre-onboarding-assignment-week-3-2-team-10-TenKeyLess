@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from "axios";
 
 interface CommentState {
   profile_url: string;
@@ -8,7 +8,7 @@ interface CommentState {
 }
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
-const Comments = '/comments';
+const Comments = "/comments";
 const Axios = axios.create({
   baseURL: BASE_URL,
 });
@@ -17,8 +17,8 @@ class API {
   GetComments = async (
     page: number | null = null,
     limit: number = 30,
-    order: 'desc' | 'asc' = 'desc',
-    sort: 'id' | 'author' | null = 'id'
+    order: "desc" | "asc" = "desc",
+    sort: "id" | "author" | null = "id"
   ) => {
     if (page === null) {
       return Axios.get(`${Comments}?_order=${order}&_sort=${sort}`);

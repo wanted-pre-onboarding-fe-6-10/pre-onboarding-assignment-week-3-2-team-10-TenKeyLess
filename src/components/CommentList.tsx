@@ -1,10 +1,11 @@
-import styled from "styled-components";
-import { useAppSelector } from "../redux";
-import { Comments } from "../redux/Reducer/CommentsReducer";
-import { Pages } from "../redux/Reducer/PageReducer";
-import { perPage } from "../utils/page.utill";
-import { fetchCommentById } from "../redux/Reducer/CommentByIdReducer";
-import { useAppDispatch } from "../redux";
+import styled from 'styled-components';
+import { useAppSelector } from '../redux';
+import { Comments } from '../redux/Reducer/CommentsReducer';
+import { Pages } from '../redux/Reducer/PageReducer';
+import { perPage } from '../utils/page.utill';
+import { fetchCommentById } from '../redux/Reducer/CommentByIdReducer';
+import { useAppDispatch } from '../redux';
+import Api from '../api';
 
 const CommentList = () => {
   const commentList = useAppSelector(Comments);
@@ -19,12 +20,14 @@ const CommentList = () => {
   const updateHandler = (id: number) => {
     dispatch(fetchCommentById(id));
   };
-  const deleteHandler = () => {};
+  const deleteHandler = (id: number) => {
+    Api.DeleteComment(id);
+  };
   return (
     <>
       {commentsPerpage.map((comment, key) => (
         <Comment key={key}>
-          <img src={comment.profile_url} alt="" />
+          <img src={comment.profile_url} alt='' />
 
           {comment.author}
 
@@ -34,7 +37,7 @@ const CommentList = () => {
 
           <Button>
             <a onClick={() => updateHandler(comment.id)}>수정</a>
-            <a>삭제</a>
+            <a onClick={() => deleteHandler(comment.id)}>삭제</a>
           </Button>
 
           <hr />
