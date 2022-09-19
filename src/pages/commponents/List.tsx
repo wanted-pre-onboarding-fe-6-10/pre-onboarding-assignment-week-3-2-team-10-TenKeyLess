@@ -25,7 +25,7 @@ const List = () => {
   const dispatch = useDispatch();
 
   const getList = async () => {
-    const response = await getCommentApi(page);
+    const response = await getCommentApi(page, '5');
     dispatch(getComment(response));
   };
 

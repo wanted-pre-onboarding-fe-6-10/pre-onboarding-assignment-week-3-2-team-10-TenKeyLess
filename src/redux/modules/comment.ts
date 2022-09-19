@@ -1,4 +1,3 @@
-import { createExpressionWithTypeArguments } from 'typescript';
 import { Comments } from '../../types/types';
 
 // Action Type
@@ -10,6 +9,7 @@ export const DELETE_COMMENTS = 'comment/DELETE_COMMENTS' as const;
 export const UPDATE_COMMENTS = 'comment/UPDATE_COMMENTS' as const;
 export const EDIT_MODE = 'comment/EDIT_MODE' as const;
 export const MOVE_PAGE = 'comment/MOVE_PAGE' as const;
+export const PAGINATION = 'comment/PAGINATION' as const;
 
 // // Action Creator
 
@@ -41,6 +41,10 @@ export const movePage = (page: string) => {
   return { type: MOVE_PAGE, page };
 };
 
+export const pagination = (comment: Array<Comments>) => {
+  return { type: PAGINATION, payload: comment };
+};
+
 // Initail State
 
 export const INITIAL_STATE: {
@@ -48,6 +52,7 @@ export const INITIAL_STATE: {
   comment: Comments;
   page: string;
   editMode: boolean;
+  pages: string[];
 } = {
   commentList: [],
   comment: {
@@ -58,6 +63,7 @@ export const INITIAL_STATE: {
     createdAt: '',
   },
   page: '1',
+  pages: [],
   editMode: false,
 };
 
@@ -92,6 +98,13 @@ const commentReducer = (state = INITIAL_STATE, action: any) => {
 
     case MOVE_PAGE:
       return { ...state, page: action.page };
+
+    case PAGINATION:
+      const pagination = Array.from(
+        { length: Math.ceil(action.payload.length / 5) },
+        (value, index) => (index + 1).toString()
+      );
+      return { ...state, pages: pagination };
 
     default:
       return state;

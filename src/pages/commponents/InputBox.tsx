@@ -38,7 +38,7 @@ const InputBox = () => {
     dispatch(addNewComment(input));
     dispatch(postComment(INITIAL_STATE.comment));
     dispatch(movePage('1'));
-    const response = await getCommentApi(page);
+    const response = await getCommentApi(page, '5');
     dispatch(getComment(response));
   };
 

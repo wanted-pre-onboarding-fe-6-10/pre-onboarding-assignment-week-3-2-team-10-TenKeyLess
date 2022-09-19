@@ -7,10 +7,10 @@ const axiosConfig: AxiosRequestConfig = { baseURL: COMMON };
 
 export const instance: AxiosInstance = axios.create(axiosConfig);
 
-export const getCommentApi = async (page: number) => {
+export const getCommentApi = async (page?: string, limit?: string) => {
   try {
     const { data } = await instance.get('/', {
-      params: { _page: page, _limit: 5, _sort: 'id', _order: 'desc' },
+      params: { _page: page, _limit: limit, _sort: 'id', _order: 'desc' },
     });
     return data;
   } catch {
