@@ -44,6 +44,7 @@ jobs:
             build s3://${{ secrets.AWS_S3_BUCKET_NAME }}
     
   api:
+    needs: build
     runs-on: ubuntu-18.04
     steps:
       - name: Checkout source code.
