@@ -27,9 +27,6 @@ jobs:
 
       - name: Install Dependencies
         run: yarn install
-        
-      - name: Run JSON Server
-        run: yarn run api
 
       - name: Build
         run: yarn run build
