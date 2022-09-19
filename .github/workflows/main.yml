@@ -45,3 +45,9 @@ jobs:
             --recursive \
             --region ap-northeast-2 \
             build s3://${{ secrets.AWS_S3_BUCKET_NAME }}
+    
+  api:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Run JSON Server
+        run: yarn run api
