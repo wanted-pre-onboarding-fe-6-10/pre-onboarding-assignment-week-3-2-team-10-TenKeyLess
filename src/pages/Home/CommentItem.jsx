@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
-import { deleteComment, setCommentItem } from '@/store/commentsSlice';
+import { deleteComment, setCommentItem } from '../../store/commentsSlice';
 
 const CommentItem = ({ comment }) => {
   const { id, author, content, createdAt, profile_url } = comment;
@@ -42,7 +42,7 @@ export default CommentItem;
 const CommentWrapper = styled.div`
   width: 100%;
   padding: 5px 10px;
-  border: 1px solid rebeccapurple;
+  border: 1px solid black;
 `;
 
 const CommentHeader = styled.div`

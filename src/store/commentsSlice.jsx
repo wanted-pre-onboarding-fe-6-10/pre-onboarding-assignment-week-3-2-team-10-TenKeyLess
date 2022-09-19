@@ -62,10 +62,10 @@ export const putComment = createAsyncThunk('PUT_COMMENT', async (commentValue, t
 export const commentsSlice = createSlice({
   name: 'comments',
   initialState: {
-    comments: [], // 총 데이터
-    currentPage: 1, // 현재 페이지
-    totalLegnth: 0, // 총 페이지 수
-    commentItem: {}, // 수정할 댓글 data
+    comments: [],
+    currentPage: 1,
+    totalLegnth: 0,
+    commentItem: {},
   },
   reducers: {
     setCurrentPage: (state, action) => {
@@ -78,7 +78,6 @@ export const commentsSlice = createSlice({
     },
   },
   extraReducers: builder => {
-    // < get요청 성공시 >
     builder.addCase(loadCommentDone.fulfilled, (state, action) => {
       return {
         ...state,
@@ -87,7 +86,6 @@ export const commentsSlice = createSlice({
       };
     });
 
-    // < POST 성공시 >
     builder.addCase(postComment.fulfilled, (state, action) => {
       return {
         ...state,
@@ -97,7 +95,6 @@ export const commentsSlice = createSlice({
       };
     });
 
-    // < PUT 성공시 >
     builder.addCase(putComment.fulfilled, (state, action) => {
       return {
         ...state,
@@ -105,7 +102,6 @@ export const commentsSlice = createSlice({
       };
     });
 
-    // < 삭제 성공시 >
     builder.addCase(deleteComment.fulfilled, (state, action) => {
       return {
         ...state,
@@ -115,7 +111,6 @@ export const commentsSlice = createSlice({
       };
     });
 
-    // < 실패시 >
     builder.addCase(postComment.rejected, state => {
       alert('등록 실패!');
       return state;

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { postComment, putComment, setCommentItem } from '@/store/commentsSlice';
+import { postComment, putComment, setCommentItem } from '../../store/commentsSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
 const CommentForm = () => {
@@ -29,19 +29,14 @@ const CommentForm = () => {
   };
 
   const onClickBtn = buttonType => {
-    // 1. 등록 or 취소 , 2. 등록이면 - POST or PUT
-    // 등록 버튼 누를시 - post인지 put인지 구별해야함.
-    // <put>
     if (commentItem.id && buttonType === 'add') {
       dispatch(putComment({ id: commentValue.id, commentValue }));
     }
 
-    // <post>
     if (!commentItem.id && buttonType === 'add') {
       dispatch(postComment(commentValue));
     }
 
-    // 취소버튼 누를시는 이거만 됨.
     setCommentValue({ profile_url: '', author: '', content: '', createdAt: '' });
     dispatch(setCommentItem(0));
   };
@@ -92,15 +87,18 @@ const formSet = [
 
 const FormEl = styled.form`
   margin: 1rem 0;
+  padding: 10px;
 `;
 
 const InputEl = styled.input`
   width: 100%;
   margin-bottom: 0.5rem;
-  padding: 4px;
+  padding: 5px;
+  margin-bottom: 10px;
 `;
 
 const TextareaEl = styled.textarea`
   width: 100%;
   resize: vertical;
+  margin-bottom: 10px;
 `;

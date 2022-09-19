@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { loadCommentDone, setCurrentPage } from '@/store/commentsSlice';
+import { loadCommentDone, setCurrentPage } from '../../store/commentsSlice';
 import CommentItem from './CommentItem';
 import CommentForm from './CommentForm';
 
@@ -16,7 +16,6 @@ const Home = () => {
     .fill('_')
     .map((_, idx) => idx + 1);
 
-  // < get요청 - 초기 한번 렌더함, 페이지버튼 클릭시 get요청x >
   useEffect(() => {
     dispatch(loadCommentDone());
   }, []);
@@ -28,7 +27,6 @@ const Home = () => {
 
   return (
     <ListWrapper>
-      {/* 댓글  */}
       {CurrnetDataArr.length > 0 && (
         <div>
           {CurrnetDataArr.map(comment => (
@@ -36,7 +34,7 @@ const Home = () => {
           ))}
         </div>
       )}
-      {/* 페이지네이션 */}
+
       {pagenationArr.length > 0 && (
         <PageBox>
           {pagenationArr.map(num => (
@@ -47,7 +45,6 @@ const Home = () => {
         </PageBox>
       )}
 
-      {/* 작성폼 */}
       <CommentForm />
     </ListWrapper>
   );
@@ -57,7 +54,6 @@ export default Home;
 const ListWrapper = styled.div`
   width: 80%;
   margin: 0 10%;
-  background-color: lightgoldenrodyellow;
 `;
 
 const PageBox = styled.div`
@@ -65,7 +61,7 @@ const PageBox = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-  background-color: rosybrown;
+  background-color: gray;
 `;
 
 const PageButton = styled.button`
